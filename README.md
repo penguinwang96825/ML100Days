@@ -63,7 +63,8 @@ Discover outliers with visualization tools, such as boxplot and scatterplot.
 numeric_columns = list(app_train.columns[list(app_train.dtypes.isin([np.dtype('int'), np.dtype('float')]))])
 
 # Remove the columns which only have two unique values
-numeric_columns = list(app_train[numeric_columns].columns[list(app_train[numeric_columns].apply(lambda x:len(x.unique())!=2 ))])
+numeric_columns = list(app_train[numeric_columns].columns[
+    list(app_train[numeric_columns].apply(lambda x:len(x.unique())!=2))])
 print("Numbers of remain columns: %i" % len(numeric_columns))
 
 # Plot columns' boxplot
@@ -220,7 +221,8 @@ class MeanEncoder:
         # Calculate smoothing factor: 
         # smoothing_factor = 1 / (1 + np.exp(- (counts - min_samples_leaf) / smoothing_slope))
         if isinstance(prior_weight_func, dict):
-            self.prior_weight_func = eval('lambda x: 1 / (1 + np.exp(- (x - k) / f))', dict(prior_weight_func, np=np))
+            self.prior_weight_func = eval(
+                'lambda x: 1 / (1 + np.exp(- (x - k) / f))', dict(prior_weight_func, np=np))
         elif callable(prior_weight_func):
             self.prior_weight_func = prior_weight_func
         else:
@@ -309,7 +311,8 @@ class MeanEncoder:
                 nf_name = '{}_pred_{}'.format(variable, target)
                 X_new[nf_name] = 0
                 for prior, col_avg_y in self.learned_stats[nf_name]:
-                    X_new[nf_name] += X_new[[variable]].join(col_avg_y, on=variable).fillna(prior, inplace=False)[
+                    X_new[nf_name] += X_new[[variable]].join(
+                        col_avg_y, on=variable).fillna(prior, inplace=False)[
                         nf_name]
                 X_new[nf_name] /= self.n_splits
         else:
@@ -317,7 +320,8 @@ class MeanEncoder:
                 nf_name = '{}_pred'.format(variable)
                 X_new[nf_name] = 0
                 for prior, col_avg_y in self.learned_stats[nf_name]:
-                    X_new[nf_name] += X_new[[variable]].join(col_avg_y, on=variable).fillna(prior, inplace=False)[
+                    X_new[nf_name] += X_new[[variable]].join(
+                        col_avg_y, on=variable).fillna(prior, inplace=False)[
                         nf_name]
                 X_new[nf_name] /= self.n_splits
 
@@ -366,10 +370,6 @@ feats = feats.sort_values(ascending=False)
 2. Shuffle the values in a single column, make predictions using the resulting dataset. Use these predictions and the true target values to calculate how much the loss function suffered from shuffling. That performance deterioration measures the importance of the variable you just shuffled.
 3. Return the data to the original order (undoing the shuffle from step 2). Now repeat step 2 with the next column in the dataset, until you have calculated the importance of each column.
 ```python
-# Reference from 
-# https://www.kaggle.com/dansbecker/permutation-importance?utm_medium=email&utm_source=mailchimp&utm_campaign=ml4insights
-# Implementing Permutation Importance
-
 from sklearn.model_selection import train_test_split
 
 data = pd.read_csv(data_path + 'titanic_train.csv')
@@ -396,3 +396,47 @@ from eli5.sklearn import PermutationImportance
 perm = PermutationImportance(my_model, random_state=1).fit(val_X, val_y)
 eli5.show_weights(perm, feature_names=val_X.columns.tolist())
 ```
+Reference from [here](https://www.kaggle.com/dansbecker/permutation-importance?utm_medium=email&utm_source=mailchimp&utm_campaign=ml4insights).
+
+# Metrics ([Day 032](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day032/Day_032_HW.ipynb))
+## Precision
+Precision attempts to answer the following question: 
+What proportion of positive identifications was actually correct?
+
+## Recall
+Recall attempts to answer the following question: 
+What proportion of actual positives was identified correctly?
+
+## Bias-Variance Tradeoff
+In statistics and machine learning, the bias–variance tradeoff is the property of a set of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples, and vice versa.
+
+- Low Bias:
+![](http://i1.bangqu.com/j/news/20180123/5bc93e9fbee64d909795afa4f52b16dd.jpeg)
+
+- High Bias:
+![](http://i1.bangqu.com/j/news/20180123/357b5ba39ad042aa9d1a96eed5c2e75d.png)
+
+## Learning Curve
+A learning curve is a relationship of the duration or the degree of effort invested in learning and experience with the resulting progress, considered as an exploratory discovery process.
+
+![](http://i1.bangqu.com/j/news/20180123/89edbff69a834fc6a09357730be3d37b.png)
+![](http://i1.bangqu.com/j/news/20180123/bfe60571bf784dd7a43c4f44c49e3b28.png)
+
+Reference from [here](http://bangqu.com/yjB839.html).
+
+## Object Function
+- Regression Loss Functions
+
+ - Mean Squared Error Loss
+ - Mean Squared Logarithmic Error Loss
+ - Mean Absolute Error Loss
+
+- Binary Classification Loss Functions
+ - Binary Cross-Entropy
+ - Hinge Loss
+ - Squared Hinge Loss
+
+- Multi-Class Classification Loss Functions
+ - Multi-Class Cross-Entropy Loss
+ - Sparse Multiclass Cross-Entropy Loss
+ - Kullback Leibler Divergence Loss
