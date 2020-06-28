@@ -192,7 +192,12 @@ from sklearn.model_selection import StratifiedKFold
 from itertools import product
 
 class MeanEncoder:
-    def __init__(self, categorical_features, n_splits=20, target_type='classification', prior_weight_func=None):
+    def __init__(
+        self, 
+        categorical_features, 
+        n_splits=20, 
+        target_type='classification', 
+        prior_weight_func=None):
         """
         :param categorical_features: list of str, the name of the categorical columns to encode
 
@@ -407,6 +412,19 @@ What proportion of positive identifications was actually correct?
 Recall attempts to answer the following question: 
 What proportion of actual positives was identified correctly?
 
+## F Score ([Day 036](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day036/Day_036_HW.ipynb))
+```python
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+
+def f2_score(y_true, y_pred, beta):
+    precision = precision_score(y_true, y_pred)
+    recall = recall_score(y_true, y_pred)
+    nominator = (1+beta**2)*(precision*recall)
+    denominator = beta**2*precision+recall
+    return nominator/denominator
+```
+
 ## Bias-Variance Tradeoff ([Day 033](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day033/Day_033_HW.ipynb))
 In statistics and machine learning, the bias–variance tradeoff is the property of a set of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples, and vice versa.
 
@@ -440,3 +458,34 @@ Reference from [here](http://bangqu.com/yjB839.html).
  - Multi-Class Cross-Entropy Loss
  - Sparse Multiclass Cross-Entropy Loss
  - Kullback Leibler Divergence Loss
+
+# Train Test Split
+Solve unbalanced data problem. ([Day 034](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day034/Day_034_HW.ipynb))
+```python
+from sklearn.model_selection import train_test_split
+y_1_index, y_0_index = np.where(y==1)[0], np.where(y==0)[0]
+train_data_y1, test_data_y1, train_label_y1, test_label_y1 = train_test_split(
+    X[y_1_index], y[y_1_index], test_size=10)
+train_data_y0, test_data_y0, train_label_y0, test_label_y0 = train_test_split(
+    X[y_0_index], y[y_0_index], test_size=10)
+x_train, y_train = np.concatenate(
+    [train_data_y1, train_data_y0]), np.concatenate([train_label_y1, train_label_y0])
+x_test, y_test = np.concatenate(
+    [test_data_y1, test_data_y0]), np.concatenate([test_label_y1, test_label_y0])
+```
+
+# Modelling
+## Regression Model ([Day 037](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day037/Day_037_HW.ipynb))
+1. Can linear model solve non-linear data?
+In linear regression, the relationships are modeled using linear predictor functions whose unknown model parameters are estimated from the data. The difference between linear and nonlinear regression models isn’t as straightforward as it sounds. You’d think that linear equations produce straight lines and nonlinear equations model curvature. Unfortunately, that’s not correct. Both types of models can fit curves to your data—so that’s not the defining characteristic. A linear regression model follows a very particular form. In statistics, a regression model is linear when all terms in the model are one of the following:
+- The constant
+- A parameter multiplied by an independent variable
+
+2. Is there any hypothesis for linear model?
+It is customary in econometrics to state the assumptions of the regression model in terms of the random error *e*. For future reference the assumptions are named SR1-SR6, "SR" denoting "simple regression." 
+ - The value of *y*, for each value of *x*, is $y = \beta_1+\beta_2x+e$
+ - The average value of the random error *e* is $E(e) = 0$ since we assume that $y = \beta_1+\beta_2x$
+ - The variance of the random error *e* is $var(e) = \sigma^2 = var(y)$ since *y* and *e* differ only by a constant, which doesn’t change the variance. 
+ - The covariance between any pair of random errors, $e_i$ and $e_j$ is $cov(e_i, e_j) = cov(y_i, y_j) = 0$.  If the values of *y* are statistically independent, then so are the random errors *e*, and vice versa.
+ - The variable *x* is not random and must take at least two different values. 
+ - (optional) The values of *e* are normally distributed about their mean $e ~ N(0, \sigma^2)$ if the values of *y* are normally distributed, and vice versa.
