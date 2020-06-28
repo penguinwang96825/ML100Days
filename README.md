@@ -398,16 +398,16 @@ eli5.show_weights(perm, feature_names=val_X.columns.tolist())
 ```
 Reference from [here](https://www.kaggle.com/dansbecker/permutation-importance?utm_medium=email&utm_source=mailchimp&utm_campaign=ml4insights).
 
-# Metrics ([Day 032](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day032/Day_032_HW.ipynb))
-## Precision
+# Metrics 
+## Precision ([Day 032](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day032/Day_032_HW.ipynb))
 Precision attempts to answer the following question: 
 What proportion of positive identifications was actually correct?
 
-## Recall
+## Recall ([Day 032](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day032/Day_032_HW.ipynb))
 Recall attempts to answer the following question: 
 What proportion of actual positives was identified correctly?
 
-## Bias-Variance Tradeoff
+## Bias-Variance Tradeoff ([Day 033](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day033/Day_033_HW.ipynb))
 In statistics and machine learning, the bias–variance tradeoff is the property of a set of predictive models whereby models with a lower bias in parameter estimation have a higher variance of the parameter estimates across samples, and vice versa.
 
 - Low Bias:
@@ -416,7 +416,7 @@ In statistics and machine learning, the bias–variance tradeoff is the property
 - High Bias:
 ![](http://i1.bangqu.com/j/news/20180123/357b5ba39ad042aa9d1a96eed5c2e75d.png)
 
-## Learning Curve
+## Learning Curve ([Day 033](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day033/Day_033_HW.ipynb))
 A learning curve is a relationship of the duration or the degree of effort invested in learning and experience with the resulting progress, considered as an exploratory discovery process.
 
 ![](http://i1.bangqu.com/j/news/20180123/89edbff69a834fc6a09357730be3d37b.png)
@@ -424,19 +424,19 @@ A learning curve is a relationship of the duration or the degree of effort inves
 
 Reference from [here](http://bangqu.com/yjB839.html).
 
-## Object Function
-- Regression Loss Functions
+## Object Function ([Day 033](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day033/Day_033_HW.ipynb))
+1. Regression Loss Functions
 
  - Mean Squared Error Loss
  - Mean Squared Logarithmic Error Loss
  - Mean Absolute Error Loss
 
-- Binary Classification Loss Functions
+2. Binary Classification Loss Functions
  - Binary Cross-Entropy
  - Hinge Loss
  - Squared Hinge Loss
 
-- Multi-Class Classification Loss Functions
+3. Multi-Class Classification Loss Functions
  - Multi-Class Cross-Entropy Loss
  - Sparse Multiclass Cross-Entropy Loss
  - Kullback Leibler Divergence Loss
