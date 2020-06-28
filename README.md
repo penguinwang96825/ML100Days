@@ -60,7 +60,8 @@ def plot_category_chart(df, feature, rotation=90, ascending=False, title=None, x
 Discover outliers with visualization tools, such as boxplot and scatterplot.
 ```python
 # Select numerical columns
-numeric_columns = list(app_train.columns[list(app_train.dtypes.isin([np.dtype('int'), np.dtype('float')]))])
+numeric_columns = list(app_train.columns[
+    list(app_train.dtypes.isin([np.dtype('int'), np.dtype('float')]))])
 
 # Remove the columns which only have two unique values
 numeric_columns = list(app_train[numeric_columns].columns[
@@ -483,7 +484,7 @@ In linear regression, the relationships are modeled using linear predictor funct
 
 2. Is there any hypothesis for linear model?
 It is customary in econometrics to state the assumptions of the regression model in terms of the random error *e*. For future reference the assumptions are named SR1-SR6, "SR" denoting "simple regression." 
- - The value of *y*, for each value of *x*, is $y = \beta_1+\beta_2x+e$
+ - The value of *y*, for each value of *x*, is <img src="https://render.githubusercontent.com/render/math?math=y = \beta_1+\beta_2x+e">
  - The average value of the random error *e* is $E(e) = 0$ since we assume that $y = \beta_1+\beta_2x$
  - The variance of the random error *e* is $var(e) = \sigma^2 = var(y)$ since *y* and *e* differ only by a constant, which doesn’t change the variance. 
  - The covariance between any pair of random errors, $e_i$ and $e_j$ is $cov(e_i, e_j) = cov(y_i, y_j) = 0$.  If the values of *y* are statistically independent, then so are the random errors *e*, and vice versa.
