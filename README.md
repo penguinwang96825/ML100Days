@@ -520,19 +520,19 @@ Reference from [here](http://bangqu.com/yjB839.html).
 ## Object Function ([Day 033](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day033/Day_033_HW.ipynb))
 1. Regression Loss Functions
 
- - Mean Squared Error Loss
- - Mean Squared Logarithmic Error Loss
- - Mean Absolute Error Loss
+     - Mean Squared Error Loss
+     - Mean Squared Logarithmic Error Loss
+     - Mean Absolute Error Loss
 
 2. Binary Classification Loss Functions
- - Binary Cross-Entropy
- - Hinge Loss
- - Squared Hinge Loss
+     - Binary Cross-Entropy
+     - Hinge Loss
+     - Squared Hinge Loss
 
 3. Multi-Class Classification Loss Functions
- - Multi-Class Cross-Entropy Loss
- - Sparse Multiclass Cross-Entropy Loss
- - Kullback Leibler Divergence Loss
+     - Multi-Class Cross-Entropy Loss
+     - Sparse Multiclass Cross-Entropy Loss
+     - Kullback Leibler Divergence Loss
 
 # Train Test Split
 Solve unbalanced data problem. ([Day 034](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day034/Day_034_HW.ipynb))
@@ -641,7 +641,7 @@ plt.show()
 Reference from [here](https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/44588).
 
 # Unsupervised Learning
-## K-means
+## K-Means
 1. Elbow Method
 2. Silhouette Coefficient ([Day 056](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day056/Day_056_kmean_HW.ipynb))
 Reference from [here](https://www.cupoy.com/clubnews/ai_tw/0000016D6BA22D97000000016375706F795F72656C656173654B5741535354434C5542/000001723D6B8FF20000000A6375706F795F72656C656173654B5741535354434C55424E455753).
@@ -736,5 +736,58 @@ ax.w_xaxis.set_ticklabels([])
 ax.w_yaxis.set_ticklabels([])
 ax.w_zaxis.set_ticklabels([])
 
+plt.show()
+```
+
+## TSNE ([Day 061](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day061/Day_061_HW.ipynb))
+t-Distributed Stochastic Neighbor Embedding (t-SNE) is a technique for dimensionality reduction that is particularly well suited for the visualization of high-dimensional datasets. The technique can be implemented via Barnes-Hut approximations, allowing it to be applied on large real-world datasets.
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import offsetbox
+from sklearn import manifold, datasets
+
+%matplotlib inline
+
+digits = datasets.load_digits()
+X = digits.data
+y = digits.target
+
+n_samples, n_features = X.shape
+n_neighbors = 30
+tsne = manifold.TSNE(n_components=2, random_state=0, init='pca', learning_rate=200., early_exaggeration=12.)
+
+# Scale and visualize the embedding vectors
+def plot_embedding(X, title=None):
+    x_min, x_max = np.min(X, 0), np.max(X, 0)
+    X = (X - x_min) / (x_max - x_min)
+
+    plt.figure(figsize=(15, 10))
+    ax = plt.subplot(111)
+    for i in range(X.shape[0]):
+        plt.text(X[i, 0], X[i, 1], str(y[i]),
+                 color=plt.cm.Set1(y[i] / 10.),
+                 fontdict={'weight': 'bold', 'size': 9})
+
+    if hasattr(offsetbox, 'AnnotationBbox'):
+        # only print thumbnails with matplotlib > 1.0
+        shown_images = np.array([[1., 1.]])  # just something big
+        for i in range(X.shape[0]):
+            dist = np.sum((X[i] - shown_images) ** 2, 1)
+            if np.min(dist) < 4e-3:
+                # don't show points that are too close
+                continue
+            shown_images = np.r_[shown_images, [X[i]]]
+            imagebox = offsetbox.AnnotationBbox(
+                offsetbox.OffsetImage(digits.images[i], cmap=plt.cm.gray_r),
+                X[i])
+            ax.add_artist(imagebox)
+    plt.xticks([]), plt.yticks([])
+    if title is not None:
+        plt.title(title)
+
+# t-SNE embedding of the digits dataset
+X_tsne = tsne.fit_transform(X)
+plot_embedding(X_tsne, "t-SNE embedding of the digits")
 plt.show()
 ```
