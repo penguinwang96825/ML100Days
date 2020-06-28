@@ -21,9 +21,9 @@ print(f'{len(object_features)} Object Features : {object_features}')
 ```
 
 ## Visualization ([Day 008](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day008/Day_008_HW.ipynb))
-1. *Normal distribution* describes continuous data which have a symmetric distribution, with a characteristic 'bell' shape.
-2. *Binomial distribution* describes the distribution of binary data from a finite sample. Thus it gives the probability of getting r events out of n trials.
-3. *Poisson distribution* describes the distribution of binary data from an infinite sample. Thus it gives the probability of getting r events in a population.
+1. **Normal distribution** describes continuous data which have a symmetric distribution, with a characteristic 'bell' shape.
+2. **Binomial distribution** describes the distribution of binary data from a finite sample. Thus it gives the probability of getting r events out of n trials.
+3. **Poisson distribution** describes the distribution of binary data from an infinite sample. Thus it gives the probability of getting r events in a population.
 ```python
 def plot_category_chart(df, feature, rotation=90, ascending=False, title=None, x_name=None, figsize=(10, 4)):
     """
@@ -79,6 +79,7 @@ plt.show()
 
 ### Emprical Cumulative Density Plot (ECDF)
 **Why is the Empirical Cumulative Distribution Useful in Exploratory Data Analysis?**
+
 The empirical CDF is useful because
 
 1. It approximates the true CDF well if the sample size (the number of data) is large, and knowing the distribution is helpful for statistical inference.
@@ -367,9 +368,9 @@ feats = feats.sort_values(ascending=False)
 ```
 
 2. Permutation Importance
-- Permutation importance is calculated after a model has been fitted.
-- If I randomly shuffle a single column of the validation data, leaving the target and all other columns in place, how would that affect the accuracy of predictions in that now-shuffled data?
-- Randomly re-ordering a single column should cause less accurate predictions, since the resulting data no longer corresponds to anything observed in the real world. Model accuracy especially suffers if we shuffle a column that the model relied on heavily for predictions.
+    - Permutation importance is calculated after a model has been fitted.
+    - If I randomly shuffle a single column of the validation data, leaving the target and all other columns in place, how would that affect the accuracy of predictions in that now-shuffled data?
+    - Randomly re-ordering a single column should cause less accurate predictions, since the resulting data no longer corresponds to anything observed in the real world. Model accuracy especially suffers if we shuffle a column that the model relied on heavily for predictions.
 
 **Steps**
 1. Get a trained model.
@@ -441,6 +442,79 @@ A learning curve is a relationship of the duration or the degree of effort inves
 ![](http://i1.bangqu.com/j/news/20180123/89edbff69a834fc6a09357730be3d37b.png)
 ![](http://i1.bangqu.com/j/news/20180123/bfe60571bf784dd7a43c4f44c49e3b28.png)
 
+[Day 040](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day040/Day_040_HW.ipynb)
+```python
+# Reference from https://martychen920.blogspot.com/2017/11/ml.html
+def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
+                        n_jobs=1, train_sizes=np.linspace(.1, 1.0, 5)):
+    """
+    Generate a simple plot of the test and training learning curve.
+
+    Parameters
+    ----------
+    estimator : object type that implements the "fit" and "predict" methods
+        An object of that type which is cloned for each validation.
+
+    title : string
+        Title for the chart.
+
+    X : array-like, shape (n_samples, n_features)
+        Training vector, where n_samples is the number of samples and
+        n_features is the number of features.
+
+    y : array-like, shape (n_samples) or (n_samples, n_features), optional
+        Target relative to X for classification or regression;
+        None for unsupervised learning.
+
+    ylim : tuple, shape (ymin, ymax), optional
+        Defines minimum and maximum yvalues plotted.
+
+    cv : int, cross-validation generator or an iterable, optional
+        Determines the cross-validation splitting strategy.
+        Possible inputs for cv are:
+          - None, to use the default 3-fold cross-validation,
+          - integer, to specify the number of folds.
+          - An object to be used as a cross-validation generator.
+          - An iterable yielding train/test splits.
+
+        For integer/None inputs, if ``y`` is binary or multiclass,
+        :class:`StratifiedKFold` used. If the estimator is not a classifier
+        or if ``y`` is neither binary nor multiclass, :class:`KFold` is used.
+
+        Refer :ref:`User Guide <cross_validation>` for the various
+        cross-validators that can be used here.
+
+    n_jobs : integer, optional
+        Number of jobs to run in parallel (default 1).
+    """
+    plt.figure(figsize=(10, 4))
+    plt.title(title)
+    if ylim is not None:
+        plt.ylim(*ylim)
+    plt.xlabel("Training examples")
+    plt.ylabel("Score")
+    train_sizes, train_scores, test_scores = learning_curve(
+        estimator, X, y, cv=cv, n_jobs=n_jobs, train_sizes=train_sizes)
+    train_scores_mean = np.mean(train_scores, axis=1)
+    train_scores_std = np.std(train_scores, axis=1)
+    test_scores_mean = np.mean(test_scores, axis=1)
+    test_scores_std = np.std(test_scores, axis=1)
+    plt.grid()
+
+    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
+                     train_scores_mean + train_scores_std, alpha=0.1,
+                     color="r")
+    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
+                     test_scores_mean + test_scores_std, alpha=0.1, color="g")
+    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
+             label="Training score")
+    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
+             label="Cross-validation score")
+
+    plt.legend(loc="best")
+    plt.show()
+```
+
 Reference from [here](http://bangqu.com/yjB839.html).
 
 ## Object Function ([Day 033](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day033/Day_033_HW.ipynb))
@@ -487,7 +561,7 @@ x_test, y_test = np.concatenate(
 
     Reference from [here](http://web.thu.edu.tw/wichuang/www/Financial%20Econometrics/Lectures/CHAPTER%203.pdf).
 
-### Lasso, Ridge, and Elastic
+### Lasso, Ridge, and Elastic ([Day 039](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day039/Day_039_HW.ipynb))
 1. Lasso: L1 regularization
 2. Ridge: L2 regularization
 3. Elastic: L1 regularization plus L2 regularization
@@ -500,3 +574,167 @@ To summarize, here are some salient differences between Lasso, Ridge and Elastic
 - Ridge **penalizes the largest β's more** than it penalizes the smaller ones (as they are squared in the penalty term). Lasso penalizes them more uniformly. This may or may not be important. In a forecasting problem with a powerful predictor, the predictor's effectiveness is shrunk by the Ridge as compared to the Lasso.
 
 Reference from [here](https://stats.stackexchange.com/questions/93181/ridge-lasso-and-elastic-net).
+
+## Tree Model
+### Random Forest ([Day 043](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day043/Day_043_HW.ipynb))
+1. Each bootstrap sample (or bagged tree) will contain 0.632 of the sample. [reference](https://stats.stackexchange.com/questions/88980/why-on-average-does-each-bootstrap-sample-contain-roughly-two-thirds-of-observat)
+
+# Hyper-parameter Search
+Reference from [here](https://cambridgecoding.wordpress.com/2016/04/03/scanning-hyperspace-how-to-tune-machine-learning-models/). [Day 047](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day047/Day_047_HW.ipynb)
+```python
+import numpy as np
+from sklearn import datasets, metrics
+from sklearn.model_selection import train_test_split, KFold, GridSearchCV
+from sklearn.ensemble import GradientBoostingClassifier
+
+wine = datasets.load_wine()
+x_train, x_test, y_train, y_test = train_test_split(wine.data, wine.target, test_size=0.25, random_state=17)
+
+# Model without fine-tuning
+clf = GradientBoostingClassifier(random_state=17)
+clf.fit(x_train, y_train)
+y_pred = clf.predict(x_test)
+print("Accuracy: {:.4f}".format(metrics.accuracy_score(y_test, y_pred)))
+
+# Hyper-parameter Search
+n_estimators = [int(x) for x in np.linspace(10, 100, 10)]
+max_depth = [int(x) for x in np.linspace(1, 10, 10)]
+param_grid = dict(n_estimators=n_estimators, max_depth=max_depth)
+grid_search = GridSearchCV(clf, param_grid, scoring="accuracy", n_jobs=-1, verbose=0)
+grid_result = grid_search.fit(x_train, y_train)
+print("Best Accuracy: %.4f using %s" % (grid_result.best_score_, grid_result.best_params_))
+
+# Train again using the best hyperparameters
+clf_bestparam = GradientBoostingClassifier(
+    max_depth=grid_result.best_params_['max_depth'], 
+    n_estimators=grid_result.best_params_['n_estimators'], 
+    random_state=17)
+clf_bestparam.fit(x_train, y_train)
+y_pred = clf_bestparam.predict(x_test)
+print("Accuracy: {:.4f}".format(metrics.accuracy_score(y_test, y_pred)))
+
+# Visualize
+import matplotlib.pyplot as plt
+%matplotlib inline
+ 
+# Fetch scores, reshape into a grid
+scores = [x for x in grid_result.cv_results_.get("mean_test_score")]
+scores = np.array(scores).reshape(len(n_estimators), len(max_depth))
+scores = np.transpose(scores)
+ 
+# Make heatmap from grid search results
+plt.figure(figsize=(12, 6))
+plt.imshow(scores, interpolation='nearest', origin='higher', cmap='Blues')
+plt.xticks(np.arange(len(n_estimators)), n_estimators)
+plt.yticks(np.arange(len(max_depth)), max_depth)
+plt.xlabel('Number of decision trees')
+plt.ylabel('Max depth')
+plt.colorbar().set_label('Classification Accuracy', rotation=270, labelpad=20)
+plt.show()
+```
+
+## Blending & Stacking
+1. **Blending** ([Day 049](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day049/Day_049_Blending_HW.ipynb)): Hold out part of the training data (say a 80/20 split). Train base models on the 80 part, predict on the 20 part as well as the test set. Train your meta-learner with the 20 set predictions as features, then run your meta-learner on the test set for your final submission predictions.
+
+2. **Stacking** ([Day 050](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day050/Day_050_Stacking_HW.ipynb)): Split training data into folds (say 5). Train base models on each training fold, predict on each validation fold, collect these predictions (this is where the OOF part comes from: this way, you collect predictions made for the entire training data set but they are "out of fold" predictions because the model was not trained on the data it predicts). Next you train your meta-learner on these OOF predictions, and run your meta-learner on the test set for final predictions.
+
+Reference from [here](https://www.kaggle.com/c/porto-seguro-safe-driver-prediction/discussion/44588).
+
+# Unsupervised Learning
+## K-means
+1. Elbow Method
+2. Silhouette Coefficient ([Day 056](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day056/Day_056_kmean_HW.ipynb))
+Reference from [here](https://www.cupoy.com/clubnews/ai_tw/0000016D6BA22D97000000016375706F795F72656C656173654B5741535354434C5542/000001723D6B8FF20000000A6375706F795F72656C656173654B5741535354434C55424E455753).
+
+## Hierarchical Clustering ([Day 057](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day057/Day_057_HW.ipynb))
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.cluster import AgglomerativeClustering
+from sklearn import datasets
+from scipy.cluster.hierarchy import dendrogram
+
+np.random.seed(5)
+%matplotlib inline
+
+def plot_dendrogram(model, **kwargs):
+    # Create linkage matrix and then plot the dendrogram
+
+    # create the counts of samples under each node
+    counts = np.zeros(model.children_.shape[0])
+    n_samples = len(model.labels_)
+    for i, merge in enumerate(model.children_):
+        current_count = 0
+        for child_idx in merge:
+            if child_idx < n_samples:
+                current_count += 1  # leaf node
+            else:
+                current_count += counts[child_idx - n_samples]
+        counts[i] = current_count
+
+    linkage_matrix = np.column_stack([model.children_, model.distances_,
+                                      counts]).astype(float)
+
+    # Plot the corresponding dendrogram
+    dendrogram(linkage_matrix, **kwargs)
+
+# Setting distance_threshold=0 ensures we compute the full tree.
+model = AgglomerativeClustering(distance_threshold=0, n_clusters=None)
+
+model = model.fit(X)
+plt.figure(figsize=(15, 10))
+plt.title('Hierarchical Clustering Dendrogram')
+# plot the top three levels of the dendrogram
+plot_dendrogram(model, truncate_mode='level', p=3)
+plt.xlabel("Number of points in node (or index of point if no parenthesis).")
+plt.show()
+```
+
+## Principal Components Analysis ([Day 059](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day059/Day_059_HW.ipynb))
+PCA is defined as an orthogonal linear transformation that transforms the data to a new coordinate system such that the greatest variance by some scalar projection of the data comes to lie on the first coordinate (called the first principal component), the second greatest variance on the second coordinate, and so on.
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn import decomposition
+from sklearn import datasets
+
+np.random.seed(417)
+%matplotlib inline
+
+digits = datasets.load_digits(n_class=10)
+X = digits.data
+y = digits.target
+
+centers = [[1, 1], [-1, -1], [1, -1]]
+pca = decomposition.PCA(n_components=3)
+
+pca.fit(X)
+X = pca.transform(X)
+
+fig = plt.figure(1, figsize=(15, 10))
+plt.clf()
+ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
+plt.cla()
+
+
+for name, label in [(str(i), i) for i in range(0, 10)]:
+    ax.text3D(X[y == label, 0].mean(),
+              X[y == label, 1].mean() + 1.5,
+              X[y == label, 2].mean(), name,
+              horizontalalignment='center',
+              size=30, 
+              bbox=dict(alpha=0.5, edgecolor='w', facecolor='w'))
+
+# Reorder the labels to have colors matching the cluster results
+y = np.choose(y, [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]).astype(np.float)
+ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y, cmap=plt.cm.nipy_spectral,
+           edgecolor='k')
+
+ax.w_xaxis.set_ticklabels([])
+ax.w_yaxis.set_ticklabels([])
+ax.w_zaxis.set_ticklabels([])
+
+plt.show()
+```
