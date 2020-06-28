@@ -478,9 +478,25 @@ x_test, y_test = np.concatenate(
 # Modelling
 ## Regression Model ([Day 037](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day037/Day_037_HW.ipynb))
 1. Can linear model solve non-linear data?
+
     In linear regression, the relationships are modeled using linear predictor functions whose unknown model parameters are estimated from the data. The difference between linear and nonlinear regression models isn’t as straightforward as it sounds. You’d think that linear equations produce straight lines and nonlinear equations model curvature. Unfortunately, that’s not correct. Both types of models can fit curves to your data—so that’s not the defining characteristic. A linear regression model follows a very particular form. In statistics, a regression model is linear when all terms in the model are one of the following:
     - The constant
     - A parameter multiplied by an independent variable
 
 2. Is there any hypothesis for linear model?
+
     Reference from [here](http://web.thu.edu.tw/wichuang/www/Financial%20Econometrics/Lectures/CHAPTER%203.pdf).
+
+### Lasso, Ridge, and Elastic
+1. Lasso: L1 regularization
+2. Ridge: L2 regularization
+3. Elastic: L1 regularization plus L2 regularization
+
+To summarize, here are some salient differences between Lasso, Ridge and Elastic-net:
+
+- Lasso does a **sparse selection**, while Ridge does not.
+- When you have **highly-correlated variables**, Ridge regression shrinks the two coefficients towards one another. Lasso is somewhat indifferent and generally picks one over the other. Depending on the context, one does not know which variable gets picked. Elastic-net is a compromise between the two that attempts to shrink and do a sparse selection simultaneously.
+- Ridge estimators are indifferent to **multiplicative scaling** of the data. That is, if both X and Y variables are multiplied by constants, the coefficients of the fit do not change, for a given λ parameter. However, for Lasso, the fit is not independent of the scaling. In fact, the λ parameter must be scaled up by the multiplier to get the same result. It is more complex for elastic net.
+- Ridge **penalizes the largest β's more** than it penalizes the smaller ones (as they are squared in the penalty term). Lasso penalizes them more uniformly. This may or may not be important. In a forecasting problem with a powerful predictor, the predictor's effectiveness is shrunk by the Ridge as compared to the Lasso.
+
+Reference from [here](https://stats.stackexchange.com/questions/93181/ridge-lasso-and-elastic-net).
