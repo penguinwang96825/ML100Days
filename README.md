@@ -478,15 +478,11 @@ x_test, y_test = np.concatenate(
 # Modelling
 ## Regression Model ([Day 037](https://github.com/penguinwang96825/ML100Days/blob/master/homework/Day037/Day_037_HW.ipynb))
 1. Can linear model solve non-linear data?
+
 In linear regression, the relationships are modeled using linear predictor functions whose unknown model parameters are estimated from the data. The difference between linear and nonlinear regression models isn’t as straightforward as it sounds. You’d think that linear equations produce straight lines and nonlinear equations model curvature. Unfortunately, that’s not correct. Both types of models can fit curves to your data—so that’s not the defining characteristic. A linear regression model follows a very particular form. In statistics, a regression model is linear when all terms in the model are one of the following:
 - The constant
 - A parameter multiplied by an independent variable
 
 2. Is there any hypothesis for linear model?
-It is customary in econometrics to state the assumptions of the regression model in terms of the random error *e*. For future reference the assumptions are named SR1-SR6, "SR" denoting "simple regression." 
- - The value of *y*, for each value of *x*, is <img src="https://render.githubusercontent.com/render/math?math=y = \beta_1 + \beta_2x + e">
- - The average value of the random error *e* is $E(e) = 0$ since we assume that $y = \beta_1+\beta_2x$
- - The variance of the random error *e* is $var(e) = \sigma^2 = var(y)$ since *y* and *e* differ only by a constant, which doesn’t change the variance. 
- - The covariance between any pair of random errors, $e_i$ and $e_j$ is $cov(e_i, e_j) = cov(y_i, y_j) = 0$.  If the values of *y* are statistically independent, then so are the random errors *e*, and vice versa.
- - The variable *x* is not random and must take at least two different values. 
- - (optional) The values of *e* are normally distributed about their mean $e ~ N(0, \sigma^2)$ if the values of *y* are normally distributed, and vice versa.
+
+Reference from [here](http://web.thu.edu.tw/wichuang/www/Financial%20Econometrics/Lectures/CHAPTER%203.pdf).
