@@ -791,3 +791,42 @@ X_tsne = tsne.fit_transform(X)
 plot_embedding(X_tsne, "t-SNE embedding of the digits")
 plt.show()
 ```
+
+# Deep Learning
+
+## Optimizer
+
+1. Batch Gradient Descent
+```python
+for i in range(nb_epochs):
+    params_grad = evaluate_gradient(loss_function, data, params)
+    params = params - learning_rate * params_grad
+```
+
+2. Stochastic Gradient Descent
+```python
+for i in range(nb_epochs):
+    np.random.shuffle(data)
+    for example in data:
+        params_grad = evaluate_gradient(loss_function, example, params)
+        params = params - learning_rate * params_grad
+```
+
+3. Mini-batch Gradient Descent
+```python
+for i in range(nb_epochs):
+  np.random.shuffle(data)
+  for batch in get_batches(data, batch_size=50):
+    params_grad = evaluate_gradient(loss_function, batch, params)
+    params = params - learning_rate * params_grad
+```
+
+### How to choose?
+1. If data is **sparse** (e.g. object detection, GloVe word embeddings), then choose Adagrad, Adadelta, RMSprop, Adam. Insofar, RMSprop, Adadelta, and Adam are very similar algorithms that do well in similar circumstances.
+2. Adam adds bias-correction and momentum to RMSprop.
+3. SGD usually achieves to find a minimum, but it might take significantly longer than with some of the optimizers, is much more reliant on a robust initialization and annealing schedule, and may get stuck in saddle points rather than local minima. 
+4. If you care about fast convergence and train a deep or complex neural network, you should choose
+one of the adaptive learning rate methods.
+
+Reference:
+1. [An overview of gradient descent optimization algorithms](https://arxiv.org/pdf/1609.04747.pdf)
